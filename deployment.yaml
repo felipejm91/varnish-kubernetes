@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: varnish-teste
+spec:
+  selector:
+    matchLabels:
+      app: varnish-teste
+  template:
+    metadata:
+      labels:
+        app: varnish-teste
+    spec:
+      containers:
+      - name: varnish-teste
+        image: varnish:7.2.1
+        ports:
+        - containerPort: 80
+        volumeMounts: #Indica o volume que será usado
+          - name: varnish-config
+            mountPath: "/etc/varnish/" #mapeia onde será montado o volume dentro do POD
+      volumes: #Declara o volume, nesse caso será utilizado um ConfigMap
+        - name: varnish-config
+          secret:
+            secretName: varnish-config-secret #NOME DO CONFIGMAP QUE SERÁ UTILIZADO
