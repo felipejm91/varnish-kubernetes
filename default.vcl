@@ -6,8 +6,8 @@ import std;
 
 # we won't use any static backend, but Varnish still need a default one
 backend teste {
-	.host = "192.168.0.2";
-    .port = "8082";
+	.host = "ip_backend_server";
+    .port = "port_backend_server";
 }
 
 sub vcl_recv {
