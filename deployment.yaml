@@ -12,14 +12,14 @@ spec:
       labels:
         app: varnish-teste
     spec:
-      volumes: #Declara o volume, nesse caso será utilizado um ConfigMap
+      volumes: #Declare the volume, in this case will be use a Secret
         - name: varnish-config
           secret:
-            secretName: varnish-config-secret #NOME DO CONFIGMAP QUE SERÁ UTILIZADO
+            secretName: varnish-config-secret #Name of the Secret that will be use
       containers:
       - name: varnish-teste
-        image: varnish:7.2.1
-        #Define privilegio de exeecução do POD, elimina o erro de permissão da porta 80 no varnish
+        image: varnish:7.2.1        
+        #Define POD execution privilegy, exclude permission error on port 80 in varnish
         securityContext:
           allowPrivilegeEscalation: false
           runAsUser: 0
@@ -32,6 +32,6 @@ spec:
             cpu: "1m"
         ports:
         - containerPort: 80
-        volumeMounts: #Indica o volume que será usado
+        volumeMounts: #Set the volumn that will be use
           - name: varnish-config
-            mountPath: "/etc/varnish/" #mapeia onde será montado o volume dentro do POD
+            mountPath: "/etc/varnish/" #Map where the volumn will be mount inside the POD
