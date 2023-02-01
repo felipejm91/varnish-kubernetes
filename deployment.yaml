@@ -2,8 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deployment-varnish-teste
-  namespace: teste-varnish
+  namespace: varnish-teste
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: varnish-teste
@@ -12,14 +13,14 @@ spec:
       labels:
         app: varnish-teste
     spec:
-      volumes: #Declare the volume, in this case will be use a Secret
+      volumes: #Declara o volume, nesse caso será utilizado um ConfigMap
         - name: varnish-config
           secret:
-            secretName: varnish-config-secret #Name of the Secret that will be use
+            secretName: secret-varnish-teste #NOME DO CONFIGMAP QUE SERÁ UTILIZADO
       containers:
       - name: varnish-teste
-        image: varnish:7.2.1        
-        #Define POD execution privilegy, exclude permission error on port 80 in varnish
+        image: varnish:7.2.1
+        #Define privilegio de exeecução do POD, elimina o erro de permissão da porta 80 no varnish
         securityContext:
           allowPrivilegeEscalation: false
           runAsUser: 0
@@ -32,6 +33,6 @@ spec:
             cpu: "1m"
         ports:
         - containerPort: 80
-        volumeMounts: #Set the volumn that will be use
+        volumeMounts: #Indica o volume que será usado
           - name: varnish-config
-            mountPath: "/etc/varnish/" #Map where the volumn will be mount inside the POD
+            mountPath: "/etc/varnish/" #mapeia onde será montado o volume dentro do POD

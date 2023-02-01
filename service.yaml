@@ -2,11 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-varnish-teste
-  namespace: teste-varnish
+  namespace: varnish-teste
 spec:
   selector:
     app: varnish-teste
   ports:
   - port: 80
     targetPort: 80
-  type: NodePort
+  type: ClusterIP
